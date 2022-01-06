@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 //통행권 개념
 @Data
@@ -21,6 +22,7 @@ public class StudentAuthenticationToken implements Authentication {
     private String credentials;
     private String details;
     private boolean authenticated;
+    private Set<GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

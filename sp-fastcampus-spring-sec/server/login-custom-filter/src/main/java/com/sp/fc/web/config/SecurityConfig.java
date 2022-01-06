@@ -1,4 +1,5 @@
 package com.sp.fc.web.config;
+
 import com.sp.fc.web.student.StudentManager;
 import com.sp.fc.web.teacher.TeacherManager;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -14,16 +15,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     private final StudentManager studentManager;
     private final TeacherManager teacherManager;
 
-    public SecurityConfig(StudentManager studentManager,TeacherManager teacherManager) {
-
+    public SecurityConfig(StudentManager studentManager, TeacherManager teacherManager) {
         this.studentManager = studentManager;
         this.teacherManager = teacherManager;
     }
 
-    //제공자 설정
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(studentManager);
@@ -33,28 +34,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomLoginFilter filter = new CustomLoginFilter(authenticationManager());
-
         http
                 .authorizeRequests(request->
                         request.antMatchers("/", "/login").permitAll()
                                 .anyRequest().authenticated()
                 )
-//                .formLogin(
-//                        login -> login.loginPage("/login")
-//                                .permitAll()
-//                                .defaultSuccessUrl("/", false)
-//                                .failureUrl("/login-error")
-//
-//                )
+                .formLogin(
+                        login->login.loginPage("/login")
+                                .permitAll()
+                                .defaultSuccessUrl("/", false)
+                                .failureUrl("/login-error")
+                )
                 .addFilterAt(filter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout -> logout.logoutSuccessUrl("/"))
-                .exceptionHandling(e -> e.accessDeniedPage("/access-denied"));
+                .logout(logout->logout.logoutSuccessUrl("/"))
+                .exceptionHandling(e->e.accessDeniedPage("/access-denied"))
+        ;
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                ;
+        ;
     }
 }
