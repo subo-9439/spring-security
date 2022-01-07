@@ -1,5 +1,6 @@
-package com.sp.fc.web.student;
+package com.sp.fc.web.teacher;
 
+import com.sp.fc.web.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,30 +10,26 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
-//통행권 개념
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class StudentAuthenticationToken implements Authentication {
+public class TeacherAuthenticationToken implements Authentication {
 
-    private Student principal;
+    private Teacher principal;
     private String credentials;
     private String details;
     private boolean authenticated;
-    private Set<GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return principal == null ? new HashSet<>() : principal.getRole();
     }
 
-
-
     @Override
     public String getName() {
         return principal == null ? "" : principal.getUsername();
     }
+
 }

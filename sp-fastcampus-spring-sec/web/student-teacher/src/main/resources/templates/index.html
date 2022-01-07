@@ -18,12 +18,6 @@
         <div class="link" sec:authorize="!authenticated">
             <a href="/login">  로그인 </a>
         </div>
-        <div class="link">
-            <a href="/login-error">  로그인 에러  </a>
-        </div>
-        <div class="link">
-            <a href="/access-denied">  접근에러 </a>
-        </div>
         <div class="link" sec:authorize="authenticated">
             <a href="/student/main">  학생 페이지  </a>
         </div>
