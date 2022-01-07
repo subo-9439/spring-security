@@ -1,5 +1,6 @@
 package com.sp.fc.web.student;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,10 @@ import java.util.Set;
 public class Student {
     private String id;
     private String username;
+
+    @JsonIgnore
     private Set<GrantedAuthority> role;
+
+    private String teacherId;
 
 }
