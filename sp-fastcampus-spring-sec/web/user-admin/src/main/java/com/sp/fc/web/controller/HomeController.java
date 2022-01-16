@@ -25,18 +25,16 @@ public class HomeController {
         return "loginForm";
     }
 
+    @GetMapping("/login-required")
+    public String loginRequired(){
+        return "LoginRequired";
+    }
+
+
     @GetMapping("/login-error")
     public String loginError(Model model){
         model.addAttribute("loginError", true);
         return "loginForm";
-    }
-
-    //auth
-    //@ResponseBody 제이슨객체를 받기위한용도
-    @ResponseBody
-    @GetMapping("/auth")
-    public Authentication auth() {
-        return SecurityContextHolder.getContext().getAuthentication();
     }
 
     @GetMapping("/access-denied")
@@ -44,9 +42,16 @@ public class HomeController {
         return "AccessDenied";
     }
 
+    @GetMapping("/access-denied2")
+    public String accessDenied2(){
+        return "AccessDenied2";
+    }
+
+
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @GetMapping("/user-page")
-    public String userPage(){
+    public String userPage() throws YouCannotAccessUserPage {
+        if(true) throw new YouCannotAccessUserPage();
         return "UserPage";
     }
 
@@ -55,4 +60,12 @@ public class HomeController {
     public String adminPage(){
         return "AdminPage";
     }
+
+
+    @ResponseBody
+    @GetMapping("/auth")
+    public Authentication auth(){
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
 }

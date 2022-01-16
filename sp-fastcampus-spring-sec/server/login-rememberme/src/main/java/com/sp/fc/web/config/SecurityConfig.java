@@ -28,7 +28,6 @@ import java.time.LocalDateTime;
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     SecurityContextPersistenceFilter filter;
     RememberMeAuthenticationFilter rememberMeAuthenticationFilter;
     TokenBasedRememberMeServices tokenBasedRememberMeServices;
