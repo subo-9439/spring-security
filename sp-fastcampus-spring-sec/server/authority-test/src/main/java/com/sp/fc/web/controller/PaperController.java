@@ -24,21 +24,27 @@ public class PaperController {
     @Autowired
     private PaperService paperService;
 
-//    @PreAuthorize("isStudent()")
+    //    @PreAuthorize("isStudent()")
     @PostFilter("notPrepareState(filterObject) && filterObject.studentIds.contains(#user.username)")
     @GetMapping("/mypapers")
     public List<Paper> myPapers(@AuthenticationPrincipal User user) {
         return paperService.getMyPapers(user.getUsername());
     }
 
-//    @Secured({"SCHOOL_PRIMARY"})
-    @CustomSecurityTag("SCHOOL_PRIMARY")
-    @GetMapping("/getPapersByPrimary")
-    public List<Paper> getPapersByPrimary(@AuthenticationPrincipal User user){
+    @Secured({"RUN_AS_PRIMARY"})
+    @GetMapping("/allpapers")
+    public List<Paper> allPapers(@AuthenticationPrincipal User user) {
         return paperService.getAllPapers();
     }
 
-//    @PreAuthorize("hasPermission(#paperId,'paper', 'read')")
+    //    @Secured({"SCHOOL_PRIMARY"})
+    @CustomSecurityTag("SCHOOL_PRIMARY")
+    @GetMapping("/getPapersByPrimary")
+    public List<Paper> getPapersByPrimary(@AuthenticationPrincipal User user) {
+        return paperService.getAllPapers();
+    }
+
+    //    @PreAuthorize("hasPermission(#paperId,'paper', 'read')")
 //    @PostAuthorize("returnObject.studentIds.contains(principal.username)")
     @PostAuthorize("returnObject.studentIds.contains(#user.username)")
     @GetMapping("/get/{paperId}")
@@ -46,3 +52,4 @@ public class PaperController {
         return paperService.getPaper(paperId);
     }
 }
+
